@@ -30,7 +30,7 @@ import { onMounted, ref } from 'vue';
 
 const spreadsheetId = '1AbZ0UlsIBKXt6AIvyQDCqasNZTZK-TXD70drcxrsI-8'
 
-const apiKey = 'AIzaSyBE8BMLjek5n_8Jp1x4oFWWXWlxW6cO3h4';
+const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1?key=${apiKey}`;
 

@@ -1,8 +1,8 @@
 {
-  "name": "sunheart",
+  "name": "city-adventure",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Sunheart",
+  "productName": "Dan and Ellee's City Adventure!",
   "author": "Daniel Wilson <daniel.gregory.wilson@gmail.com>",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "@googleapis/sheets": "^9.3.1",
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
+    "dotenv": "^16.4.7",
     "google-auth-library": "^9.15.0",
     "googleapis": "^144.0.0",
     "pinia": "^2.0.11",
