@@ -27,7 +27,7 @@
     </div>
 
     <div class="row items-center justify-evenly q-my-lg">
-      <q-btn color="green" label="Go!" @click="fetchGoogleSheetData" />
+      <q-btn color="green" label="Go!" @click="pickSteps" />
     </div>
 
     <div class="row items-center justify-evenly q-my-lg">
@@ -59,6 +59,8 @@ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/valu
 let steps = ref([]) as Ref<Array<Array<string>>>
 let stepIdx = ref(0)
 
+let dbRows = ref([]) as Ref<Array<Array<string>>>
+
 let dayNight = ref('Both')
 let tagsToExclude = ref(['Needs Work'])
 let includeOne = ref('Sexy')
@@ -72,9 +74,17 @@ async function fetchGoogleSheetData() {
     
     let rows = data.values; // Extract rows from the data
     rows.shift(); // Remove the header row
+    dbRows.value = rows
+  } catch (error) {
+      console.error('Error fetching Google Sheets data:', error);
+  }
+}
 
-    // Filter out day/night steps
-    if (dayNight.value === 'Day') {
+function pickSteps() {
+  let rows = dbRows.value
+  
+  // Filter out day/night steps
+  if (dayNight.value === 'Day') {
       rows = rows.filter((s: Array<string>) => getStep(s).dayNight !== 'Night')
     } else if (dayNight.value === 'Night') {
       rows = rows.filter((s: Array<string>) => getStep(s).dayNight !== 'Day')
@@ -105,30 +115,6 @@ async function fetchGoogleSheetData() {
     } else {
       steps.value = shuffledRows.slice(0, 5)
     }
-
-    // // Get the table body element
-    // const tableBody = document.querySelector('#data-table tbody');
-    // if (!tableBody) {
-    //     throw new Error('Table body element not found');
-    // }
-
-    // // Loop through the rows (starting from row 1 to skip headers)
-    // for (let i = 1; i < rows.length; i++) {
-    //     const row = document.createElement('tr');
-        
-    //     // Loop through each cell in the row and create a table cell for each
-    //     rows[i].forEach((cell: string) => {
-    //         const cellElement = document.createElement('td');
-    //         cellElement.textContent = cell;
-    //         row.appendChild(cellElement);
-    //     });
-        
-    //     // Append the row to the table
-    //     tableBody.appendChild(row);
-    // }
-  } catch (error) {
-      console.error('Error fetching Google Sheets data:', error);
-  }
 }
 
 function getStep(step: Array<string>): Step {
@@ -155,6 +141,6 @@ defineOptions({
 });
 
 onMounted(() => { 
-  // fetchGoogleSheetData()
+  fetchGoogleSheetData()
 })
 </script>
